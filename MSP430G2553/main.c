@@ -45,9 +45,9 @@ void Init_irPWM(void) {
   P1DIR |= PIN_FAN; // Output p2.2 and p2.4                        
   P1SEL |= PIN_FAN; // TA 1.1 on p2.2 and TA 1.2 on p2.4
   
-  TA0CCR0 = 1000-1;  // PWM Period of TA 1
+  TA0CCR0 = 10000-1;  // PWM Period of TA 1
   TA0CCTL1 = OUTMOD_7; // CCR1 reset/set  
-  TA0CCR1 = 0;         // BLUE duty cycle
+  TA0CCR1 = 10000;         // BLUE duty cycle
   
   TA0CTL = TASSEL_2 + MC_1; // SMCLK, up mode TA 1
 }
@@ -202,7 +202,7 @@ int main(void) {
       ledInputP = (ledInputRaw & 0xf0) >> 4;
       ledInputN = ~ledInputRaw & 0x0f;
       if ((ledInputP == ledInputN) && (ledInputP <= 10)){
-         irREG = 100*ledInputP;
+         irREG = 10000-(1000*ledInputP);
          __no_operation();
       }
       __no_operation();

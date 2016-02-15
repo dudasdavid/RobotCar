@@ -25,7 +25,7 @@ if not "%1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\common\bin\cspybat" -f "E:\Documents\MCU\MSP430G2553\Project\20_SERVO_CONTROL_V2\settings\sensor.Debug.general.xcl" --backend -f "E:\Documents\MCU\MSP430G2553\Project\20_SERVO_CONTROL_V2\settings\sensor.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\common\bin\cspybat" -f "C:\GIT\RobotCar\MSP430G2553\settings\sensor.Debug.general.xcl" --backend -f "C:\GIT\RobotCar\MSP430G2553\settings\sensor.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\common\bin\cspybat" -f "E:\Documents\MCU\MSP430G2553\Project\20_SERVO_CONTROL_V2\settings\sensor.Debug.general.xcl" "--debug_file=%1" --backend -f "E:\Documents\MCU\MSP430G2553\Project\20_SERVO_CONTROL_V2\settings\sensor.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\common\bin\cspybat" -f "C:\GIT\RobotCar\MSP430G2553\settings\sensor.Debug.general.xcl" "--debug_file=%1" --backend -f "C:\GIT\RobotCar\MSP430G2553\settings\sensor.Debug.driver.xcl" 
 
 @echo off 
 :end
