@@ -2,7 +2,7 @@
 
 "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\bin\armstlink.dll" 
 
-"C:\Users\david\Desktop\STM32F303Projects\ROBOT\ROBOT\EWARM\ROBOT Configuration\Exe\ROBOT Configuration.out" 
+"C:\GIT\RobotCar\STM32F303\EWARM\ROBOT\Exe\ROBOT.out" 
 
 --plugin "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\bin\armbat.dll" 
 

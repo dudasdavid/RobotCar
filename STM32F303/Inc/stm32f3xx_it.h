@@ -52,6 +52,7 @@ void EXTI9_5_IRQHandler(void);
 void TIM1_CC_IRQHandler(void);
 void USART2_IRQHandler(void);
 void UART4_IRQHandler(void);
+void TIM7_IRQHandler(void);
 void DMA2_Channel3_IRQHandler(void);
 void DMA2_Channel5_IRQHandler(void);
 
