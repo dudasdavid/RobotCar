@@ -1,0 +1,4 @@
+MainPackage=C:\Users\Dávid\Documents\Visual Studio 2013\Projects\CamViewer_1\CamViewer_1\CamViewer_1.Windows\bin\Debug\CamViewer_1.Windows_1.1.0.1_Bundle\CamViewer_1.Windows_1.1.0.1_AnyCPU_Debug.appx
+SymbolPackage=C:\Users\Dávid\Documents\Visual Studio 2013\Projects\CamViewer_1\CamViewer_1\CamViewer_1.Windows\AppPackages\CamViewer_1.Windows_1.1.0.1_Debug_Test\CamViewer_1.Windows_1.1.0.1_AnyCPU_Debug.appxsym
+ResourcePack=C:\Users\Dávid\Documents\Visual Studio 2013\Projects\CamViewer_1\CamViewer_1\CamViewer_1.Windows\bin\Debug\CamViewer_1.Windows_1.1.0.1_Bundle\CamViewer_1.Windows_1.1.0.1_scale-140.appx
+ResourcePack=C:\Users\Dávid\Documents\Visual Studio 2013\Projects\CamViewer_1\CamViewer_1\CamViewer_1.Windows\bin\Debug\CamViewer_1.Windows_1.1.0.1_Bundle\CamViewer_1.Windows_1.1.0.1_scale-180.appx
