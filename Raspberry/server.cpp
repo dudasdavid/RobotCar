@@ -31,13 +31,14 @@
 using namespace std;
 using namespace cv;
 
-#define BUFLEN 512
+#define BUFLEN 9//512
 #define TXBUFLEN 76800
 #define NPACK 10
 #define PORT 7777
 
 #define dID 0x4A
 
+/*
 #define MAX_PEOPLE 	6
 #define P_ARNOLD    0
 #define P_GEORGE	1
@@ -45,6 +46,10 @@ using namespace cv;
 #define P_LISA  	3
 #define P_DAVID  	4
 #define P_JENO  	5
+*/
+#define MAX_PEOPLE 	2
+#define P_DAVID     0
+#define P_DAVIDG	1
 
 #define CONFIDENCE_MAX 2800
 #define SERVO_THRESHOLD 20
@@ -53,12 +58,16 @@ unsigned char i2cBuffer[6];
 int batteryRaw = 0;
 double batteryFloat = 0.0;
 char temperature = 35;
-int S1 = 500, S2 = 500;
+int S1 = 500, S2 = 800;
 int S1last = 500, S2last = 500;
 int S1limited = 500, S2limited = 500;
 
+int LeftDrive = 100, RightDrive = 100;
+
 int LEDState = 0;
+int LEDState2 = 0;
 int LEDStateLast = 0;
+int LEDStateLast2 = 0;
 int faceDetectionEna = 0;
 int firstConnection = 1;
 int messageCounter = 0;
@@ -101,6 +110,9 @@ int im_height;
 Ptr<FaceRecognizer> model = createEigenFaceRecognizer();
 // Ptr<FaceRecognizer> model = createLBPHFaceRecognizer();
 string people[MAX_PEOPLE];
+
+char savedImageName[100];
+int imageCounter = 0;
 
 void diep(const char *s)
 {
@@ -153,12 +165,16 @@ void *detectFaceOnFrame(void *data){
     im_width = images[0].cols;
     im_height = images[0].rows;
     model->train(images, labels);
+    /*
     people[P_ARNOLD] 	= "Arnold";
     people[P_GEORGE]  	= "George";
     people[P_KEANU]  	= "Keanu";
     people[P_LISA]  	= "Lisa";
     people[P_DAVID]  	= "David";
     people[P_JENO]  	= "Jeno";
+    */
+    people[P_DAVID] 	= "David";
+    people[P_DAVIDG]  	= "David";
     
     timestamp();
     printf("Face database loaded\n");
@@ -202,6 +218,35 @@ void *cameraCapture(void *data){
     raspiCamCvReleaseCapture( &capture );
     timestamp();
     printf("Capturing thread stopped\n");
+}
+
+void *uartHandler(void *data){
+    timestamp();
+    printf("UART handler thread started\n");
+    int fd = *((int *)data);
+    while (1){
+        if (exitFlag) break;
+        
+        serialPutchar(fd, LeftDrive & 0xFF);
+        serialPutchar(fd, RightDrive & 0xFF);
+        serialPutchar(fd, 0xFF);
+        
+        usleep(35000);
+        
+        if (LEDState2 != LEDStateLast2) {
+            LEDStateLast2 = LEDState2;
+            serialPutchar(fd, LEDState2 & 0xFF);
+            serialPutchar(fd, LEDState2 & 0xFF);
+            serialPutchar(fd, 0xFE);
+            // ledValue = ledMessage(LEDState2);
+            // wiringPiI2CWriteReg8 (fd, 0xAD, ledValue);
+            // usleep(10000);
+        }
+        
+        usleep(35000);
+    }
+    timestamp();
+    printf("UART handler thread stopped\n");
 }
 
 void *i2cHandler(void *data){
@@ -378,9 +423,16 @@ void *receiveTCP(void *data){
         }
         else if (buf[0] == 'Z') scaleSelector = (buf[1]  - '0')*1;       
         else if (buf[0] == 'L') LEDState = (buf[1]  - '0')*10 + (buf[2]  - '0')*1;
+        else if (buf[0] == 'R') LEDState2 = (buf[1]  - '0')*10 + (buf[2]  - '0')*1;
         else if (buf[0] == 'X') exitFlag = 1;
         else if (buf[0] == 'Q') tcpErrorFlag = 1;
         else if (buf[0] == 'A') TCPTimeout = 0;
+        
+        else if (buf[0] == 'D') {
+            LeftDrive  = (buf[1]  - '0')*100 + (buf[2]  - '0')*10 + (buf[3]  - '0')*1;
+            RightDrive = (buf[4]  - '0')*100 + (buf[5]  - '0')*10 + (buf[6]  - '0')*1;
+            printf("Timestamp: %d\n",(int)time(NULL));
+        }
         
         else if (buf[0] == 'F') {
             faceDetectionEna = (buf[1]  - '0')*1;
@@ -400,19 +452,19 @@ void *receiveTCP(void *data){
 
 int main(void) {
     char buf[BUFLEN];
-    int i2cfd;
+    int i2cfd, uartfd;
     int sockfd, i, newsockfd, pid;
     socklen_t slen=sizeof(si_other);
     
-    pthread_t thread1, thread2, thread3, thread4, thread5;
-    int i1,i2,i3,i4,i5;
+    pthread_t thread1, thread2, thread3, thread4, thread5, thread6;
+    int i1,i2,i3,i4,i5,i6;
     int tr=1;
     
     timestamp();
     printf("Setting up UART\n");
-    wiringPiSetup () ;
-    uartfd = serialOpen("/dev/ttyAMA0",115200);
-    serialFlush(uartfd);
+    
+    if ((uartfd = serialOpen ("/dev/ttyAMA0", 115200)) < 0) diep("UART");
+    // if (wiringPiSetup () == -1) diep("wiringPi");
     
     timestamp();
     printf("Setting up I2C\n");
@@ -440,6 +492,7 @@ int main(void) {
     listen(sockfd,5); 
   
     i1 = pthread_create( &thread1, NULL, i2cHandler, (void*) &i2cfd);
+    i6 = pthread_create( &thread6, NULL, uartHandler, (void*) &uartfd);
     i4 = pthread_create( &thread4, NULL, cameraCapture, (void*) 0);
     i5 = pthread_create( &thread5, NULL, detectFaceOnFrame, (void*) 0);
     
@@ -472,6 +525,8 @@ int main(void) {
             if (tcpErrorFlag) break;
             sleep(1);
         }
+        S1 = 500;
+        S2 = 900;
         scaleSelector = 0;
         LEDState = 0;
         faceDetectionEna = 0;
@@ -579,7 +634,12 @@ void faceDetect( Mat gray, CascadeClassifier& cascade )
             Mat face_resized;
             Mat face = gray(face_i);
             cv::resize(face, face_resized, Size(im_width, im_height), 1.0, 1.0, INTER_CUBIC);
-            // int prediction = model->predict(face_resized); 
+            // int prediction = model->predict(face_resized);
+            
+            /*
+            sprintf(savedImageName, "../../savedfaces/face%d.jpg", imageCounter++);
+            imwrite(savedImageName, face_resized);
+            */
             
             double confidence = 0.0;
             int label;
@@ -638,6 +698,7 @@ static void read_csv(const string& filename, vector<Mat>& images, vector<int>& l
         getline(liness, classlabel);
         if(!path.empty() && !classlabel.empty()) {
         	// read the file and build the picture collection
+            // printf("%s",path);
             images.push_back(imread(path, 0));
             labels.push_back(atoi(classlabel.c_str()));
         }
