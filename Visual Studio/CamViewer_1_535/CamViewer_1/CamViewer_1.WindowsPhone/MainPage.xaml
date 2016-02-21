@@ -8,9 +8,9 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid>
-        <Grid Height="290" Width="375" Margin="155,57,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" >
+        <Grid Height="290" Width="375" Margin="209,85,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" >
             <Grid.RenderTransform>
-                <CompositeTransform ScaleX="1.4" ScaleY="1.4"/>
+                <CompositeTransform ScaleX="1.6" ScaleY="1.6"/>
             </Grid.RenderTransform>
             <Border BorderBrush="#FF00C8FF" BorderThickness="1" Height="252" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="332">
                 <Canvas x:Name="CamCanvas" Margin="5,5,0,0" Height="240" Width="320" VerticalAlignment="Top" HorizontalAlignment="Left" PointerEntered="CanvasPointerEntered" PointerMoved="CanvasPointerMoved" PointerPressed="CanvasPointerPressed" PointerExited="CanvasPointerExited" DoubleTapped="DoubleTapOnImage" PointerReleased="CanvasPointerReleased">
@@ -77,12 +77,12 @@
                         <ToggleSwitch x:Name="ToggleZoom" Header="Zoom" HorizontalAlignment="Left" Height="61" Margin="6,0,0,0" VerticalAlignment="Top" Width="233" Toggled="ZoomToggled" Background="#4C000000"/>
                         <ToggleSwitch x:Name="ToggleFace" Header="Face recognition" HorizontalAlignment="Left" Height="60" Margin="6,61,0,0" VerticalAlignment="Top" Width="233" Toggled="FaceRecognitionToggled" Background="#4C000000"/>
                     </Grid>
-                    <Slider x:Name="LEDSlider" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="222" Orientation="Horizontal" LargeChange="1" Maximum="10" TickFrequency="1" TickPlacement="Inline" ValueChanged="LEDChanged" Background="#7F1F1F1F" Foreground="#7F0B6CF8" Canvas.Left="133" Canvas.Top="234" RenderTransformOrigin="0.5,0.5">
+                    <Slider x:Name="LEDSlider" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="222" Orientation="Horizontal" LargeChange="1" Maximum="10" TickFrequency="1" TickPlacement="Inline" ValueChanged="LEDChanged" Background="#7F1F1F1F" Foreground="#7F0B6CF8" Canvas.Left="131" Canvas.Top="233" RenderTransformOrigin="0.5,0.5">
                         <Slider.RenderTransform>
                             <CompositeTransform ScaleX="0.7" ScaleY="0.7"/>
                         </Slider.RenderTransform>
                     </Slider>
-                    <Slider x:Name="LEDSlider2" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="223" Orientation="Horizontal" LargeChange="1" Maximum="10" TickFrequency="1" TickPlacement="Inline" ValueChanged="LEDChanged2" Background="#7F1F1F1F" Foreground="#7F0B6CF8" Canvas.Left="-38" Canvas.Top="236" RenderTransformOrigin="0.5,0.5">
+                    <Slider x:Name="LEDSlider2" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="223" Orientation="Horizontal" LargeChange="1" Maximum="10" TickFrequency="1" TickPlacement="Inline" ValueChanged="LEDChanged2" Background="#7F1F1F1F" Foreground="#7F0B6CF8" Canvas.Left="-32" Canvas.Top="235" RenderTransformOrigin="0.5,0.5">
                         <Slider.RenderTransform>
                             <CompositeTransform ScaleX="0.7" ScaleY="0.7"/>
                         </Slider.RenderTransform>
@@ -118,31 +118,31 @@
             </Slider.RenderTransform>
         </Slider>
 
-        <Canvas x:Name="LeftCanvas" HorizontalAlignment="Left" Height="320" Margin="4,54,0,0" VerticalAlignment="Top" Width="80" PointerEntered="LeftCanvasPointerStarted" PointerMoved="LeftCanvasPointerMoved" PointerReleased="LeftCanvasPointerReleased" PointerExited="LeftCanvasPointerReleased">
+        <Canvas x:Name="LeftCanvas" HorizontalAlignment="Left" Height="320" Margin="4,80,0,0" VerticalAlignment="Top" Width="80" PointerEntered="LeftCanvasPointerStarted" PointerMoved="LeftCanvasPointerMoved" PointerReleased="LeftCanvasPointerReleased" PointerExited="LeftCanvasPointerReleased">
             <Image x:Name="LeftPic" Height="320" Canvas.Left="0" Canvas.Top="0" Width="80" Source="Assets/remote.png" Stretch="Fill"/>
             <Line Height="10" Width="60" Canvas.Left="10" Canvas.Top="160" StrokeThickness="0.5" X1="100" X2="0" Y1="0" Stretch="Fill" Stroke="#FF9B9B9B" />
             <Ellipse x:Name="LeftCircle" Height="60" Canvas.Left="10" StrokeThickness="2" Canvas.Top="130" Width="60" Stroke="#FF00C8FF" Fill="#FF00A2E8" Opacity="0.3"/>
             <Rectangle Height="320" Canvas.Left="10" Stroke="#FF9B9B9B" StrokeThickness="0.9" Width="60" RadiusY="30" RadiusX="30"/>
         </Canvas>
-        <Canvas x:Name="RightCanvas" HorizontalAlignment="Right" Height="320" Margin="0,54,4,0" VerticalAlignment="Top" Width="80" PointerEntered="RightCanvasPointerStarted" PointerMoved="RightCanvasPointerMoved" PointerReleased="RightCanvasPointerReleased" PointerExited="RightCanvasPointerReleased">
+        <Canvas x:Name="RightCanvas" HorizontalAlignment="Right" Height="320" Margin="0,80,4,0" VerticalAlignment="Top" Width="80" PointerEntered="RightCanvasPointerStarted" PointerMoved="RightCanvasPointerMoved" PointerReleased="RightCanvasPointerReleased" PointerExited="RightCanvasPointerReleased">
             <Image x:Name="RightPic" Height="320" Canvas.Left="0" Canvas.Top="0" Width="80" Source="Assets/remote.png" Stretch="Fill"/>
             <Line Height="10" Width="60" Canvas.Left="10" Canvas.Top="160" StrokeThickness="0.5" X1="100" X2="0" Y1="0" Stretch="Fill" Stroke="#FF9B9B9B" />
             <Ellipse x:Name="RightCircle" Height="60" Canvas.Left="10" StrokeThickness="2" Canvas.Top="130" Width="60" Stroke="#FF00C8FF" Fill="#FF00A2E8" Opacity="0.3"/>
             <Rectangle Height="320" Canvas.Left="10" Stroke="#FF9B9B9B" StrokeThickness="0.9" Width="60" RadiusX="30" RadiusY="30"/>
         </Canvas>
 
-        <Button Content="C" HorizontalAlignment="Left" Height="60" Margin="576,-1,-9,0" VerticalAlignment="Top" Width="40" MinWidth="20" MinHeight="20" BorderBrush="White" Click="CenterCameraClick"/>
+        <Button Content="C" HorizontalAlignment="Left" Height="60" Margin="669,1,0,0" VerticalAlignment="Top" Width="40" MinWidth="20" MinHeight="20" BorderBrush="White" Click="CenterCameraClick"/>
 
 
-        <Canvas Name="PopUpCanvas" HorizontalAlignment="Left" Height="485" Margin="-85,-500,-97,-56" VerticalAlignment="Top" Width="764">
-            <Rectangle Fill="#B2000000" Height="465" Canvas.Left="10" Canvas.Top="9" Width="744"/>
-            <TextBox x:Name="IPBox" HorizontalAlignment="Left" Height="11" TextWrapping="Wrap" Text="192.168.0.100" VerticalAlignment="Top" Width="170" RenderTransformOrigin="0.5,0.5" Canvas.Left="319" Canvas.Top="116" IsTextPredictionEnabled="False" InputScope="CurrencyAmountAndSymbol" KeyUp="CheckKey" Margin="0"/>
-            <ToggleButton x:Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="170" Click="ConnectButtonClick" FontSize="14" RenderTransformOrigin="0.5,0.5" Canvas.Left="319" Canvas.Top="145"/>
-            <ToggleButton x:Name="SwipeButton" Content="CAR Control" Height="19" Canvas.Left="319" Canvas.Top="213" Width="170" FontSize="14" Click="SwipeClick"/>
-            <Button Content="Shutdown server" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="170" Click="StopServerClick" RenderTransformOrigin="0.5,0.5" Canvas.Left="319" Canvas.Top="367" FontSize="14"/>
-            <Button Content="Exit" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="170" Click="ExitClick" RenderTransformOrigin="0.5,0.5" Canvas.Left="319" Canvas.Top="324" FontSize="14"/>
-            <TextBox x:Name="PortBox" HorizontalAlignment="Left" Height="11" TextWrapping="Wrap" Text="7777" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.5,0.5" Canvas.Left="494" Canvas.Top="116" IsTextPredictionEnabled="False" KeyUp="CheckKey" Margin="0" InputScope="Number"/>
-            <ToggleButton x:Name="HighSpeedButton" Content="HiPower OFF" Height="19" Canvas.Left="319" Canvas.Top="257" Width="170" FontSize="14" Click="PowerSwitch"/>
+        <Canvas Name="PopUpCanvas" HorizontalAlignment="Left" Height="485" Margin="-85,-500,-23,0" VerticalAlignment="Top" Width="845">
+            <Rectangle Fill="#B2000000" Height="465" Canvas.Left="10" Canvas.Top="9" Width="825"/>
+            <TextBox x:Name="IPBox" HorizontalAlignment="Left" Height="11" TextWrapping="Wrap" Text="192.168.0.100" VerticalAlignment="Top" Width="170" RenderTransformOrigin="0.5,0.5" Canvas.Left="347" Canvas.Top="116" IsTextPredictionEnabled="False" InputScope="CurrencyAmountAndSymbol" KeyUp="CheckKey" Margin="0"/>
+            <ToggleButton x:Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="170" Click="ConnectButtonClick" FontSize="14" RenderTransformOrigin="0.5,0.5" Canvas.Left="347" Canvas.Top="145"/>
+            <ToggleButton x:Name="SwipeButton" Content="CAR Control" Height="19" Canvas.Left="347" Canvas.Top="213" Width="170" FontSize="14" Click="SwipeClick"/>
+            <Button Content="Shutdown server" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="170" Click="StopServerClick" RenderTransformOrigin="0.5,0.5" Canvas.Left="347" Canvas.Top="367" FontSize="14"/>
+            <Button Content="Exit" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="170" Click="ExitClick" RenderTransformOrigin="0.5,0.5" Canvas.Left="347" Canvas.Top="324" FontSize="14"/>
+            <TextBox x:Name="PortBox" HorizontalAlignment="Left" Height="11" TextWrapping="Wrap" Text="7777" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.5,0.5" Canvas.Left="522" Canvas.Top="116" IsTextPredictionEnabled="False" KeyUp="CheckKey" Margin="0" InputScope="Number"/>
+            <ToggleButton x:Name="HighSpeedButton" Content="HiPower OFF" Height="19" Canvas.Left="347" Canvas.Top="257" Width="170" FontSize="14" Click="PowerSwitch"/>
         </Canvas>
         <Button Content="..." HorizontalAlignment="Left" Height="60" Margin="25,-1,0,0" VerticalAlignment="Top" Width="40" MinWidth="20" MinHeight="20" BorderBrush="White" Click="ShowMenuClick"/>
         <FlipView x:Name="flipView" HorizontalAlignment="Left" Height="100" Margin="408,526,0,-226" VerticalAlignment="Top"/>
