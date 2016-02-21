@@ -50,9 +50,9 @@ unsigned char BatteryTxData[] = {0x00};            // Table of data to transmit
 int checkSum;
 int checkSumCalc;
 
-int S1Ref = 500;
+int S1Ref = 800;
 int S2Ref = 500;
-int S1Act = 500;
+int S1Act = 800;
 int S2Act = 500;
 int S1Increment = 0;
 int S2Increment = 0;

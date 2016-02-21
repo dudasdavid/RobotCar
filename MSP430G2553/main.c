@@ -151,10 +151,10 @@ int main(void) {
   Init_LED();
   Init_Fan();
   
-  SwitchFan(1);
+  SwitchFan(0);
 
-  S1REG = 3900; // S1 = vertical
-  S2REG = 3000; // S2 = horizontal
+  S1REG = 3500; // S1 = vertical
+  S2REG = 2920; // S2 = horizontal
   calculatedS1 = S1REG;
   calculatedS2 = S2REG;
   
@@ -325,8 +325,8 @@ __interrupt void Timer_A (void)
       S2Act = S2Ref;
     }
     
-    calculatedS1 = 2020 + (int)(S1Act * 2);
-    calculatedS2 = 1700 + (int)(S2Act * 2.5);
+    calculatedS1 = 2020 + (int)(S1Act * 1.9);
+    calculatedS2 = 2170 + (int)(S2Act * 1.5);
   }
 }
 
