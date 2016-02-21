@@ -53,7 +53,7 @@ TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim6;
-TIM_HandleTypeDef htim17;
+TIM_HandleTypeDef htim8;
 
 UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart2;
@@ -177,7 +177,7 @@ static void MX_TIM4_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_UART4_Init(void);
 static void MX_USART2_UART_Init(void);
-static void MX_TIM17_Init(void);
+static void MX_TIM8_Init(void);
 void StartDefaultTask(void const * argument);
 void StartSensorTask(void const * argument);
 void StartMotorCtrllTask(void const * argument);
@@ -231,7 +231,7 @@ int main(void)
   MX_TIM6_Init();
   MX_UART4_Init();
   MX_USART2_UART_Init();
-  MX_TIM17_Init();
+  MX_TIM8_Init();
 
   /* USER CODE BEGIN 2 */
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
@@ -243,8 +243,8 @@ int main(void)
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
   HAL_TIMEx_PWMN_Start(&htim2, TIM_CHANNEL_4);
   
-  HAL_TIM_PWM_Start(&htim17, TIM_CHANNEL_1);
-  HAL_TIMEx_PWMN_Start(&htim17, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
+  HAL_TIMEx_PWMN_Start(&htim8, TIM_CHANNEL_2);
   
   HAL_TIM_Encoder_Start(&htim3,TIM_CHANNEL_ALL);
   HAL_TIM_Encoder_Start(&htim4,TIM_CHANNEL_ALL);
@@ -258,7 +258,7 @@ int main(void)
   TIM6->CR1 = 1;           // Enable the counter
   
   
-  TIM17->CCR1 = 30*2400/100;
+  TIM8->CCR2 = 5*2400/100;
   
   BSP_PB_Init(BUTTON_USER, BUTTON_MODE_EXTI); 
   BSP_LED_Init(LED4);
@@ -355,12 +355,13 @@ void SystemClock_Config(void)
 
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_UART4
                               |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_TIM1
-                              |RCC_PERIPHCLK_ADC12;
+                              |RCC_PERIPHCLK_TIM8|RCC_PERIPHCLK_ADC12;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
   PeriphClkInit.Uart4ClockSelection = RCC_UART4CLKSOURCE_PCLK1;
   PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV1;
   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
   PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_HCLK;
+  PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
   HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit);
 
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
@@ -599,22 +600,26 @@ void MX_TIM6_Init(void)
 
 }
 
-/* TIM17 init function */
-void MX_TIM17_Init(void)
+/* TIM8 init function */
+void MX_TIM8_Init(void)
 {
 
+  TIM_MasterConfigTypeDef sMasterConfig;
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig;
   TIM_OC_InitTypeDef sConfigOC;
 
-  htim17.Instance = TIM17;
-  htim17.Init.Prescaler = 0;
-  htim17.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim17.Init.Period = 2400;
-  htim17.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim17.Init.RepetitionCounter = 0;
-  HAL_TIM_Base_Init(&htim17);
+  htim8.Instance = TIM8;
+  htim8.Init.Prescaler = 0;
+  htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim8.Init.Period = 2400;
+  htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim8.Init.RepetitionCounter = 0;
+  HAL_TIM_PWM_Init(&htim8);
 
-  HAL_TIM_PWM_Init(&htim17);
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  HAL_TIMEx_MasterConfigSynchronization(&htim8, &sMasterConfig);
 
   sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
   sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
@@ -623,8 +628,11 @@ void MX_TIM17_Init(void)
   sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
   sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
   sBreakDeadTimeConfig.BreakFilter = 0;
+  sBreakDeadTimeConfig.Break2State = TIM_BREAK2_DISABLE;
+  sBreakDeadTimeConfig.Break2Polarity = TIM_BREAK2POLARITY_HIGH;
+  sBreakDeadTimeConfig.Break2Filter = 0;
   sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
-  HAL_TIMEx_ConfigBreakDeadTime(&htim17, &sBreakDeadTimeConfig);
+  HAL_TIMEx_ConfigBreakDeadTime(&htim8, &sBreakDeadTimeConfig);
 
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
   sConfigOC.Pulse = 0;
@@ -633,9 +641,9 @@ void MX_TIM17_Init(void)
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
   sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
-  HAL_TIM_PWM_ConfigChannel(&htim17, &sConfigOC, TIM_CHANNEL_1);
+  HAL_TIM_PWM_ConfigChannel(&htim8, &sConfigOC, TIM_CHANNEL_2);
 
-  HAL_TIM_MspPostInit(&htim17);
+  HAL_TIM_MspPostInit(&htim8);
 
 }
 
@@ -923,35 +931,43 @@ void StartDefaultTask(void const * argument)
     referenceSpeedRightPrev = referenceSpeedRight;
     lastSyncBranch = syncBranch;
     if (msTime - uart4RxTimeStamp < 200){
-      if ((receiveBuffer[2] == 0xFF) && (receiveBuffer[1] <=200) && (receiveBuffer[0] <=200)){
-        if (receiveBuffer[0] - 100 >= 0) referenceSpeedLeft = calcSpdRef_LUT(receiveBuffer[0] - 100);
-        else referenceSpeedLeft = -1*calcSpdRef_LUT(-1*(receiveBuffer[0] - 100));
-        if (receiveBuffer[1] - 100 >= 0) referenceSpeedRight = calcSpdRef_LUT(receiveBuffer[1] - 100);
-        else referenceSpeedRight = -1*calcSpdRef_LUT(-1*(receiveBuffer[1] - 100));
-        syncBranch = 2;
+      if ((receiveBuffer[2] == 0xFF) || (receiveBuffer[1] == 0xFF) || (receiveBuffer[0] == 0xFF)){
+        if ((receiveBuffer[2] == 0xFF) && (receiveBuffer[1] <=200) && (receiveBuffer[0] <=200)){
+          if (receiveBuffer[0] - 100 >= 0) referenceSpeedLeft = calcSpdRef_LUT(receiveBuffer[0] - 100);
+          else referenceSpeedLeft = -1*calcSpdRef_LUT(-1*(receiveBuffer[0] - 100));
+          if (receiveBuffer[1] - 100 >= 0) referenceSpeedRight = calcSpdRef_LUT(receiveBuffer[1] - 100);
+          else referenceSpeedRight = -1*calcSpdRef_LUT(-1*(receiveBuffer[1] - 100));
+          syncBranch = 2;
+        }
+        else if ((receiveBuffer[1] == 0xFF) && (receiveBuffer[2] <=200) && (receiveBuffer[0] <=200)){
+          if (receiveBuffer[2] - 100 >= 0) referenceSpeedLeft = calcSpdRef_LUT(receiveBuffer[2] - 100);
+          else referenceSpeedLeft = -1*calcSpdRef_LUT(-1*(receiveBuffer[2] - 100));
+          if (receiveBuffer[0] - 100 >= 0) referenceSpeedRight = calcSpdRef_LUT(receiveBuffer[0] - 100);
+          else referenceSpeedRight = -1*calcSpdRef_LUT(-1*(receiveBuffer[0] - 100));
+          syncBranch = 1;
+        }
+        else if ((receiveBuffer[0] == 0xFF) && (receiveBuffer[1] <=200) && (receiveBuffer[2] <=200)){
+          if (receiveBuffer[1] - 100 >= 0) referenceSpeedLeft = calcSpdRef_LUT(receiveBuffer[1] - 100);
+          else referenceSpeedLeft = -1*calcSpdRef_LUT(-1*(receiveBuffer[1] - 100));
+          if (receiveBuffer[2] - 100 >= 0) referenceSpeedRight = calcSpdRef_LUT(receiveBuffer[2] - 100);
+          else referenceSpeedRight = -1*calcSpdRef_LUT(-1*(receiveBuffer[2] - 100));
+          syncBranch = 0;
+        }
+        else {
+          referenceSpeedLeft = 0;
+          referenceSpeedRight = 0;
+        }
+        if (lastSyncBranch != syncBranch) syncCorruption = 3;
+        else {
+          syncCorruption--;
+          if (syncCorruption < 0) syncCorruption = 0;
+        }
       }
-      else if ((receiveBuffer[1] == 0xFF) && (receiveBuffer[2] <=200) && (receiveBuffer[0] <=200)){
-        if (receiveBuffer[2] - 100 >= 0) referenceSpeedLeft = calcSpdRef_LUT(receiveBuffer[2] - 100);
-        else referenceSpeedLeft = -1*calcSpdRef_LUT(-1*(receiveBuffer[2] - 100));
-        if (receiveBuffer[0] - 100 >= 0) referenceSpeedRight = calcSpdRef_LUT(receiveBuffer[0] - 100);
-        else referenceSpeedRight = -1*calcSpdRef_LUT(-1*(receiveBuffer[0] - 100));
-        syncBranch = 1;
-      }
-      else if ((receiveBuffer[0] == 0xFF) && (receiveBuffer[1] <=200) && (receiveBuffer[2] <=200)){
-        if (receiveBuffer[1] - 100 >= 0) referenceSpeedLeft = calcSpdRef_LUT(receiveBuffer[1] - 100);
-        else referenceSpeedLeft = -1*calcSpdRef_LUT(-1*(receiveBuffer[1] - 100));
-        if (receiveBuffer[2] - 100 >= 0) referenceSpeedRight = calcSpdRef_LUT(receiveBuffer[2] - 100);
-        else referenceSpeedRight = -1*calcSpdRef_LUT(-1*(receiveBuffer[2] - 100));
-        syncBranch = 0;
-      }
-      else {
-        referenceSpeedLeft = 0;
-        referenceSpeedRight = 0;
-      }
-      if (lastSyncBranch != syncBranch) syncCorruption = 3;
-      else {
-        syncCorruption--;
-        if (syncCorruption < 0) syncCorruption = 0;
+      else if ((receiveBuffer[2] == 0xFE) || (receiveBuffer[1] == 0xFE) || (receiveBuffer[0] == 0xFE)){
+        if ((receiveBuffer[2] == 0xFE) && (receiveBuffer[1] <=10) && (receiveBuffer[0] <=10)){
+          //__asm("NOP");
+          TIM8->CCR2 = receiveBuffer[0]*10*(2400/100);
+        }
       }
     }
     else {
@@ -1166,7 +1182,7 @@ void StartMotorCtrllTask(void const * argument)
       hillHolderForceLeft = 0;
       hillHolderForceRight = 0;
     }
-    
+
     summaForceLeft = forceLeft+hillHolderForceLeft;
     summaForceRight = forceRight+hillHolderForceRight;
     

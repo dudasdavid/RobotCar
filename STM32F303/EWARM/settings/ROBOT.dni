@@ -9,10 +9,10 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [stlink]
-stlinkserialNo=EE5626A6
+stlinkserialNo=2798FD0D
 stlinkfoundProbes=
 [DebugChecksum]
-Checksum=584420980
+Checksum=746135483
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
