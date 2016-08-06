@@ -1,0 +1,85 @@
+﻿<Page
+    x:Class="CamViewer_1.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CamViewer_1"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="318*"/>
+            <ColumnDefinition Width="365*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Height="800" Width="1280" Margin="0,0,86,-32" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="639*"/>
+                <ColumnDefinition Width="641*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Height="708" Width="924" Margin="175,34,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                <Border BorderBrush="Turquoise" BorderThickness="1" Width="916" Height="692" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0">
+                    <Canvas x:Name="CamCanvas" Margin="10,10,0,0" Height="672" Width="896" VerticalAlignment="Top" HorizontalAlignment="Left" PointerEntered="CanvasPointerEntered" PointerMoved="CanvasPointerMoved" PointerPressed="CanvasPointerPressed" PointerExited="CanvasPointerExited" DoubleTapped="DoubleTapOnImage" PointerReleased="CanvasPointerReleased">
+                        <Image x:Name="CamImage" Height="672" Margin="0,0,0,0" VerticalAlignment="Top" Width="896" HorizontalAlignment="Left"/>
+                        <TextBlock x:Name="face1" HorizontalAlignment="Left" Height="18" TextWrapping="Wrap" Text="face1" VerticalAlignment="Top" Width="69" Foreground="Yellow" Canvas.Left="-313" Canvas.Top="134" FontSize="14"/>
+                        <TextBlock x:Name="face2" HorizontalAlignment="Left" Height="18" TextWrapping="Wrap" Text="face2" VerticalAlignment="Top" Width="69" Foreground="Yellow" Canvas.Left="-313" Canvas.Top="151" FontSize="14"/>
+                        <TextBlock x:Name="face3" HorizontalAlignment="Left" Height="18" TextWrapping="Wrap" Text="face3" VerticalAlignment="Top" Width="69" Foreground="Yellow" Canvas.Left="-313" Canvas.Top="169" FontSize="14"/>
+                        <TextBlock x:Name="face4" HorizontalAlignment="Left" Height="18" TextWrapping="Wrap" Text="face4" VerticalAlignment="Top" Width="69" Foreground="Yellow" Canvas.Left="-313" Canvas.Top="187" FontSize="14"/>
+                        <TextBlock x:Name="face5" HorizontalAlignment="Left" Height="18" TextWrapping="Wrap" Text="face5" VerticalAlignment="Top" Width="69" Foreground="Yellow" Canvas.Left="-313" Canvas.Top="205" FontSize="14"/>
+                        <Ellipse x:Name="SoftJoy" Fill="#3300C8FF" Height="60" Canvas.Left="418" Canvas.Top="306" Width="60"/>
+                        <Line x:Name="HorizontalLine" Height="672" Width="5" Canvas.Left="448" Canvas.Top="0" StrokeThickness="0.2" X1="0" X2="0" Y1="1" Stretch="Fill" Stroke="#FF00C8FF" />
+                        <Line x:Name="VerticalLine" Height="5" Width="896" Canvas.Left="0" Canvas.Top="336" StrokeThickness="0.2" X1="100" X2="0" Y1="0" Stretch="Fill" Stroke="#FF00C8FF" />
+                    </Canvas>
+                </Border>
+                <Slider Name="S1" HorizontalAlignment="Left" Height="50" Margin="10,520,0,0" VerticalAlignment="Top" Width="660" Value="500" Maximum="1000" TickPlacement="Inline" TickFrequency="10" ValueChanged="SliderChanged" Visibility="Collapsed"/>
+                <Slider Name="S2" HorizontalAlignment="Left" Height="500" Margin="680,10,0,0" VerticalAlignment="Top" Width="50" Orientation="Vertical" Maximum="1000" Value="500" TickFrequency="10" TickPlacement="Inline" ValueChanged="SliderChanged" IsDirectionReversed="True" Visibility="Collapsed"/>
+            </Grid>
+            <Grid HorizontalAlignment="Left" Height="55" Margin="-412,-118,0,0" VerticalAlignment="Top" Width="210">
+                <TextBlock Text="Buffer" Margin="40,0,-40,-10" Height="55" VerticalAlignment="Bottom"/>
+                <ProgressBar Name="BufferBar" Height="25" Margin="0,20,0,0" VerticalAlignment="Top" Maximum="10000" SmallChange="1" LargeChange="10" Value="1000" />
+                <TextBlock Name="BufferText" HorizontalAlignment="Left" Height="24" Margin="5,25,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="30"/>
+            </Grid>
+            <Grid Height="180" Width="171" Margin="267,48,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1">
+                <ToggleSwitch Name="ToggleZoom" Header="Zoom" HorizontalAlignment="Left" Height="90" Margin="0,0,0,0" VerticalAlignment="Top" Width="175" Toggled="ZoomToggled" Background="#4C000000"/>
+                <ToggleSwitch Name="ToggleFace" Header="Face recognition" HorizontalAlignment="Left" Height="90" Margin="0,90,0,0" VerticalAlignment="Top" Width="175" Toggled="FaceRecognitionToggled" Background="#4C000000"/>
+            </Grid>
+            <Grid HorizontalAlignment="Left" Height="150" Margin="-377,427,0,0" VerticalAlignment="Top" Width="210">
+                <TextBox Name="SendText" HorizontalAlignment="Left" Height="30" Margin="0,0,0,0" TextWrapping="Wrap" Text="Text to send" VerticalAlignment="Top" Width="210"/>
+                <Button Name="SendButton" Content="Send" HorizontalAlignment="Left" Height="40" Margin="0,40,0,0" VerticalAlignment="Top" Width="210" Click="SendButtonClick"/>
+            </Grid>
+            <Slider Name="LEDSlider" HorizontalAlignment="Left" Height="41" Margin="327,722,0,0" VerticalAlignment="Top" Width="623" Orientation="Horizontal" LargeChange="2" Maximum="10" TickFrequency="1" TickPlacement="Inline" ValueChanged="LEDChanged" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5">
+                <Slider.RenderTransform>
+                    <CompositeTransform ScaleY="1.5"/>
+                </Slider.RenderTransform>
+            </Slider>
+            <TextBlock Height="20" Margin="792,-33,-201,0" TextWrapping="Wrap" Text="IR LED" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" Grid.Column="1"/>
+            <Grid HorizontalAlignment="Left" Height="50" Margin="512,52,0,0" VerticalAlignment="Top" Width="300" Grid.ColumnSpan="2">
+                <ProgressBar Name="BatteryBar" HorizontalAlignment="Left" Height="25" Margin="60,0,0,0" VerticalAlignment="Top" Width="200" Maximum="8.5" Minimum="6.6" Value="7.4"/>
+                <TextBlock HorizontalAlignment="Left" Height="25" Margin="0,0,0,0" TextWrapping="Wrap" Text="Battery voltage" VerticalAlignment="Top" Width="50"/>
+                <TextBlock Name="BatteryText" HorizontalAlignment="Left" Height="25" Margin="70,5,0,0" TextWrapping="Wrap" Text="7.4" VerticalAlignment="Top" Width="20"/>
+            </Grid>
+            <Grid HorizontalAlignment="Left" Height="50" Margin="207,52,0,0" VerticalAlignment="Top" Width="300">
+                <ProgressBar Name="CPUBar" HorizontalAlignment="Left" Height="25" Margin="70,0,0,0" VerticalAlignment="Top" Width="200" Maximum="55" Minimum="25" Value="40"/>
+                <TextBlock HorizontalAlignment="Left" Height="25" Margin="0,0,0,0" TextWrapping="Wrap" Text="CPU temperature" VerticalAlignment="Top" Width="60"/>
+                <TextBlock Name="CPUText" HorizontalAlignment="Left" Height="25" Margin="80,5,0,0" TextWrapping="Wrap" Text="40" VerticalAlignment="Top" Width="20"/>
+            </Grid>
+            <Button Content="Exit" HorizontalAlignment="Left" Height="40" Margin="771,50,-240,0" VerticalAlignment="Top" Width="110" Click="ExitClick" Grid.Column="1"/>
+            <Button Content="Stop server" HorizontalAlignment="Left" Height="40" Margin="771,94,-240,0" VerticalAlignment="Top" Width="110" Click="StopServerClick" Grid.Column="1"/>
+            <TextBlock Name="aaa" HorizontalAlignment="Left" Height="29" Margin="-377,97,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="233"/>
+            <TextBox Name ="dflt" HorizontalAlignment="Left" Height="72" Margin="-377,155,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="175"/>
+        </Grid>
+        <Canvas Name="PopUpCanvas" HorizontalAlignment="Left" Height="929" Margin="-32,-71,-128,-90" VerticalAlignment="Top" Width="1526" Grid.ColumnSpan="2">
+            <Rectangle Fill="#B2000000" Height="870" Canvas.Left="10" Canvas.Top="9" Width="1434"/>
+            <TextBox x:Name="IPBox" HorizontalAlignment="Left" Height="11" TextWrapping="Wrap" Text="192.168.0.100" VerticalAlignment="Top" Width="164" RenderTransformOrigin="0.5,0.5" Canvas.Left="589" Canvas.Top="239" IsTextPredictionEnabled="False" InputScope="CurrencyAmountAndSymbol" KeyUp="CheckKey" Margin="0"/>
+            <ToggleButton x:Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="170" Click="ConnectButtonClick" FontSize="14" RenderTransformOrigin="0.5,0.5" Canvas.Left="586" Canvas.Top="298"/>
+            <ToggleButton x:Name="SwipeButton" Content="SWIPE" Height="50" Canvas.Left="586" Canvas.Top="385" Width="170" FontSize="14" Click="SwipeClick"/>
+            <Button Content="Shutdown server" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="170" Click="StopServerClick" RenderTransformOrigin="0.5,0.5" Canvas.Left="586" Canvas.Top="552" FontSize="14"/>
+            <Button Content="Exit" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="170" Click="ExitClick" RenderTransformOrigin="0.5,0.5" Canvas.Left="586" Canvas.Top="486" FontSize="14"/>
+            <TextBox x:Name="PortBox" HorizontalAlignment="Left" Height="11" TextWrapping="Wrap" Text="7777" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.5,0.5" Canvas.Left="758" Canvas.Top="239" IsTextPredictionEnabled="False" KeyUp="CheckKey" Margin="0" InputScope="Number"/>
+        </Canvas>
+        <Button Content="..." HorizontalAlignment="Left" Height="60" Margin="31,33,0,0" VerticalAlignment="Top" Width="60" MinWidth="20" MinHeight="20" BorderBrush="White" Click="ShowMenuClick"/>
+    </Grid>
+</Page>
