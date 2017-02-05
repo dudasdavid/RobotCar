@@ -112,7 +112,7 @@
                 <CompositeTransform ScaleX="3"/>
             </Slider.RenderTransform>
         </Slider>
-        <Slider x:Name="RightDrive" HorizontalAlignment="Left" Height="300" Margin="760,75,-181,0" VerticalAlignment="Top" Width="28" Orientation="Vertical" RenderTransformOrigin="0.5,0.5" LargeChange="1" PointerExited="RightDriveLost" ValueChanged="DriveSliderChanged" Maximum="200" Value="100">
+        <Slider x:Name="RightDrive" HorizontalAlignment="Left" Height="300" Margin="804,75,-95,0" VerticalAlignment="Top" Width="28" Orientation="Vertical" RenderTransformOrigin="0.5,0.5" LargeChange="1" PointerExited="RightDriveLost" ValueChanged="DriveSliderChanged" Maximum="200" Value="100">
             <Slider.RenderTransform>
                 <CompositeTransform ScaleX="3"/>
             </Slider.RenderTransform>
@@ -124,7 +124,7 @@
             <Ellipse x:Name="LeftCircle" Height="60" Canvas.Left="10" StrokeThickness="2" Canvas.Top="130" Width="60" Stroke="#FF00C8FF" Fill="#FF00A2E8" Opacity="0.3"/>
             <Rectangle Height="320" Canvas.Left="10" Stroke="#FF9B9B9B" StrokeThickness="0.9" Width="60" RadiusY="30" RadiusX="30"/>
         </Canvas>
-        <Canvas x:Name="RightCanvas" HorizontalAlignment="Right" Height="320" Margin="0,80,4,0" VerticalAlignment="Top" Width="80" PointerEntered="RightCanvasPointerStarted" PointerMoved="RightCanvasPointerMoved" PointerReleased="RightCanvasPointerReleased" PointerExited="RightCanvasPointerReleased">
+        <Canvas x:Name="RightCanvas" HorizontalAlignment="Left" Height="320" Margin="660,80,0,0" VerticalAlignment="Top" Width="80" PointerEntered="RightCanvasPointerStarted" PointerMoved="RightCanvasPointerMoved" PointerReleased="RightCanvasPointerReleased" PointerExited="RightCanvasPointerReleased">
             <Image x:Name="RightPic" Height="320" Canvas.Left="0" Canvas.Top="0" Width="80" Source="Assets/remote.png" Stretch="Fill"/>
             <Line Height="10" Width="60" Canvas.Left="10" Canvas.Top="160" StrokeThickness="0.5" X1="100" X2="0" Y1="0" Stretch="Fill" Stroke="#FF9B9B9B" />
             <Ellipse x:Name="RightCircle" Height="60" Canvas.Left="10" StrokeThickness="2" Canvas.Top="130" Width="60" Stroke="#FF00C8FF" Fill="#FF00A2E8" Opacity="0.3"/>
